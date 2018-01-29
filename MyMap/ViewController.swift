@@ -26,9 +26,24 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         manager.delegate = self
 
         // 現在の許可状況を取得　→　When In Use以外なら、When In Useの許可を求める
-        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
-            // 許可リクエスト（ダイアログを表示）
+//        if CLLocationManager.authorizationStatus() != .authorizedWhenInUse {
+//            // 許可リクエスト（ダイアログを表示）
+//            manager.requestWhenInUseAuthorization()
+//        }
+
+        // 正確には、requestWhenInUseAuthorization()は.notDetermined（１回も操作してない）時にしかコールされないので
+        // 上記のコードは以下のように変更
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            // 許可リクエスト（ダイアログが表示される）
+            print("初回")
             manager.requestWhenInUseAuthorization()
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("許可済み")
+            break
+        case .restricted, .denied:
+            print("自分で許可してのダイアログを表示させる")
+            // 設定　→　プライバシー　→　位置情報サービス　→　アプリ名
         }
     }
 
@@ -41,6 +56,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - CLLocationManagerDelegate
     // 許可ステータスが更新された時に呼び出される
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("ステータス更新")
+        print(CLLocationManager.authorizationStatus().rawValue)
         if status == .authorizedWhenInUse {
             // 現在地の取得を実行（１回）
             manager.requestLocation()
