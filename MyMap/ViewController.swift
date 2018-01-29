@@ -41,7 +41,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - CLLocationManagerDelegate
     // 許可ステータスが更新された時に呼び出される
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            // 現在地の取得を実行（１回）
+            manager.requestLocation()
+        }
+    }
 
+    // 現在地が更新されたときに呼び出される
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("locations : \(locations)")
+    }
+
+    // 位置情報の取得に失敗した場合
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error : \(error)")
     }
 }
 
