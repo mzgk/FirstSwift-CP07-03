@@ -7,9 +7,14 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
 
+    // MARK: - アウトレット
+    @IBOutlet weak var mapView: MKMapView!
+
+    // MARK: - ライフサイクル
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
