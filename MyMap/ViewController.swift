@@ -52,8 +52,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         print("locations : \(locations)")
 
         // 現在地の情報を取得
-        let current = locations[0]
-        // MapViewに表示するための情報を作成（緯度経度の表示範囲は500m）
+//        let current = locations[0]
+        // 最新情報は配列の末尾（lastプロパティの型：CLLocation?でOptionalで定義されている→currentはOptional→nilなら早期リターン）
+        guard let current = locations.last else {
+            return
+        }
+        // MapViewに表示するための情報を作成（現在地を中心にして、緯度経度の表示範囲は500m）
         let region = MKCoordinateRegionMakeWithDistance(current.coordinate, 500, 500)
         // MapViewに表示
         mapView.setRegion(region, animated: true)
