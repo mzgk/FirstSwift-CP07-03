@@ -57,6 +57,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let region = MKCoordinateRegionMakeWithDistance(current.coordinate, 500, 500)
         // MapViewに表示
         mapView.setRegion(region, animated: true)
+
+        // ピンを表示する
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = current.coordinate
+        mapView.addAnnotation(annotation)
     }
 
     // 位置情報の取得に失敗した場合
