@@ -50,6 +50,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     // 現在地が更新されたときに呼び出される
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("locations : \(locations)")
+
+        // 現在地の情報を取得
+        let current = locations[0]
+        // MapViewに表示するための情報を作成（緯度経度の表示範囲は500m）
+        let region = MKCoordinateRegionMakeWithDistance(current.coordinate, 500, 500)
+        // MapViewに表示
+        mapView.setRegion(region, animated: true)
     }
 
     // 位置情報の取得に失敗した場合
